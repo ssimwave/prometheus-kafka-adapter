@@ -42,6 +42,9 @@ var (
 	serializer             Serializer
 )
 
+// TODO: Add a command line flag for this.
+var globalLabels [2]string = [2]string{"org", "site"}
+
 func init() {
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 	logrus.SetOutput(os.Stdout)

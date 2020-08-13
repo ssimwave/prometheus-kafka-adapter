@@ -28,6 +28,8 @@ import (
 	"github.com/linkedin/goavro"
 )
 
+var globalLabelMap = make(map[string]string)
+
 // Serializer represents an abstract metrics serializer
 type Serializer interface {
 	Marshal(metric map[string]interface{}) ([]byte, error)
@@ -42,6 +44,20 @@ func Serialize(s Serializer, req *prompb.WriteRequest) (map[string][][]byte, err
 
 		for _, l := range ts.Labels {
 			labels[string(model.LabelName(l.Name))] = string(model.LabelValue(l.Value))
+		}
+
+		if labels["__name__"] == "netdata_info" {
+			for _, globalLabel := range globalLabels {
+				if val, ok := labels[globalLabel]; ok {
+					globalLabelMap[globalLabel] = val
+				}
+			}
+		} else {
+			for _, globalLabel := range globalLabels {
+				if val, ok := globalLabelMap[globalLabel]; ok {
+					labels[globalLabel] = val
+				}
+			}
 		}
 
 		t := topic(labels)
