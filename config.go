@@ -42,8 +42,7 @@ var (
 	serializer             Serializer
 )
 
-// TODO: Add a command line flag for this.
-var globalLabels [2]string = [2]string{"org", "site"}
+var globalLabels []string
 
 func init() {
 	logrus.SetFormatter(&logrus.JSONFormatter{})
@@ -108,6 +107,10 @@ func init() {
 
 	if value := os.Getenv("KAFKA_SASL_PASSWORD"); value != "" {
 		kafkaSaslPassword = value
+	}
+
+	if value := os.Getenv("GLOBAL_LABELS"); value != "" {
+		globalLabels = strings.Split(value, ",")
 	}
 
 	var err error
