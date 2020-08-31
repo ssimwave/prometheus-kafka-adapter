@@ -48,6 +48,7 @@ Prometheus-kafka-adapter listens for metrics coming from Prometheus and sends th
 - `BASIC_AUTH_PASSWORD`: basic auth password to be used for receive endpoint, defaults is no basic auth.
 - `LOG_LEVEL`: defines log level for [`logrus`](https://github.com/sirupsen/logrus), can be `debug`, `info`, `warn`, `error`, `fatal` or `panic`, defaults to `info`.
 - `GIN_MODE`: manage [gin](https://github.com/gin-gonic/gin) debug logging, can be `debug` or `release`.
+- `GLOBAL_LABELS`: A comma seperated list of labels. The adapter will copy labels from the `netdata_info` topic to all other topics. This allows the netdata `host_labels` to be applied globally to all metrics. Example: `export GLOBAL_LABELS="org,site"`.
 
 To connect to Kafka over SSL define the following additonal environment variables:
 
